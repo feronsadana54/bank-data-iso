@@ -1,0 +1,91 @@
+.boxep{
+  width: 600px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: white;
+  border: solid 7px #efefef;
+  margin-top: 1rem;
+  margin-left: -100rem;
+  color: #858796;
+  margin-left: 3rem;
+}
+
+.boxiso{
+  width: 400px;
+  padding: 30px;
+  border-radius: 5px;
+  background-color: white;
+  border: solid 7px #efefef;
+  margin-top: 1rem;
+  color: #858796;
+  margin-left: 3rem;
+}
+
+.final{
+  float: right;
+  margin-bottom: 20px;
+  width: 100%;
+  background-color: #f2f2f2;
+  border-bottom-right-radius: 3px;
+  border-bottom-left-radius: 3px;
+  border-bottom: 1px solid #fff;
+  border-top: 1px solid #ccc;
+  padding: 8px 15px;
+  font-size: 12px;
+  color: grey;
+  box-shadow: inset 0px 1px 1px #fff;
+  text-align: right;
+  margin-left: 10px;
+  margin-right: 20px;
+}
+
+.kat{
+  margin-left: 190px;
+  font-weight: bolder;
+}
+
+h3{
+  font-weight: bold;
+}
+
+.boxin{
+  width: 150px;
+  padding-left: 28px;
+  padding-right: 40px;
+}
+
+@media screen and (max-width: 1000px) {
+    #content,
+    aside {
+        width: 100%;
+        padding: 0;
+    }
+}
+
+aside {
+    float: right;
+    width: 60%;
+    padding-left: 120px;
+}
+
+.ava{
+  width: 100%;
+}
+
+.ava img{
+  width: 400px;
+  
+}
+
+article{
+  float:left;
+  width: 50%;
+  line-height:21px;
+  color:#000000;
+}
+
+.col-CP {
+  position: relative;
+  width: 100%;
+  padding-left: 0.75rem;
+}

@@ -1,0 +1,40 @@
+ $data['title'] = 'Joint Inspection';
+        $data['user'] = $this->db->get_where('user', ['email' => $this->session->userdata('email')])->row_array();
+        $this->load->model('Inspect_model', 'inspection');
+        $data['judul'] = $this->db->get('db_inject')->result_array();
+
+        $this->form_validation->set_rules('judul', 'Judul', 'required');
+        $this->form_validation->set_rules('bulan', 'Bulan', 'required');
+        $this->form_validation->set_rules('tahun', 'Tahun', 'required');
+        $this->form_validation->set_rules('file', 'File', 'required');
+
+        if ($this->form_validation->run() == false) {
+            $this->load->view('templates/header', $data);
+            $this->load->view('templates/sidebar', $data);
+            $this->load->view('templates/topbar', $data);
+            $this->load->view('join/dokumen', $data);
+            $this->load->view('templates/footer');
+        } else {
+            
+            $data = [
+                'judul' => $this->input->post('judul'),
+                'bulan' => $this->input->post('bulan'),
+                'tahun' => $this->input->post('tahun'),
+                'file' => $this->input->post('file'),
+                'tanggal' => date('Y-m-d H:i:s')
+            ];
+
+            $this->session->judul = 'judul';
+            $this->session->bulan = 'bulan';
+            $this->session->tahun = 'tahun';
+            $this->session->tanggal = 'tanggal';
+
+
+
+
+            $this->db->insert('db_inject', $data);
+            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Submenu berhasil ditambahkan
+          </div>');
+            redirect('joint/kategori');
+        }
