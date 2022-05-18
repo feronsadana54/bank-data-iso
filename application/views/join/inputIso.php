@@ -26,7 +26,7 @@
                                         <div class="form-group">
                                             <select name="kategori" id="kategori" class="form-control">
                                                 <?php foreach ($judul as $j) : ?>
-                                                    <option value="<?= $j['id']; ?>"><?= $j['kategori']; ?></option>
+                                                    <option value="<?= $j['id_kategori']; ?>"><?= $j['kategori']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>

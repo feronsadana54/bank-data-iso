@@ -49,17 +49,16 @@
                                                         <?php foreach ($data as $d) : ?>
                                                             <tr>
                                                                 <th scope="row"><?= $i; ?></th>
-                                                                <td><?= $d['judul_file']; ?></td>
+                                                                <td><?= $d['judul']; ?></td>
                                                                 <td><?= $d['nama_berkas']; ?></td>
                                                                 <td><?= $d['tanggal']; ?></td>
                                                                 <td><?= $d['bisnis_area']; ?></td>
                                                                 <td>
 
-                                                                    <!-- <a href="<?php echo base_url() ?>Joint/edit_perbulan/<?php echo $d['id'] ?>" class="badge badge-primary"> Edit</a> -->
+                                                                    <a href="<?php echo base_url() ?>Joint/edit_perbulan/<?php echo $d['id'] ?>" class="badge badge-primary"> Edit</a>
                                                                     <a href="<?php echo base_url() ?>Joint/hapus_data_perbulan/<?php echo $d['id'] ?>" class="badge badge-danger"> Hapus</a>
-                                                                    <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['nama_berkas']; ?>" class="badge badge-success"> Download</a>
-
-                                                                </td>
+                                                                    <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                               </td>
 
                                                             </tr>
 

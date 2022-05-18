@@ -27,20 +27,24 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <p>Judul File</p>
-                                            <select name="judul_file" id="judul_file" class="form-control">
+                                            <select name="id_judul" id="id_judul" class="form-control">
 
                                                 <?php foreach ($getjudul as $gj) : ?>
-                                                    <option value="<?= $gj['judul']; ?>"><?= $gj['judul']; ?></option>
+                                                    <option value="<?= $gj['id_judul']; ?>"><?= $gj['judul']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <p>Kode Bussinnes Area</p>
-                                            <input type="text" class="form-control" id="bussinnes_area" name="bussinnes_area" placeholder="masukkan kode">
+                                            <p>Kode Bisnis Area</p>
+                                            <input type="text" class="form-control" id="bisnis_area" name="bisnis_area" placeholder="masukkan kode">
                                         </div>
                                     </div>
+
+                                   
+                                    <input type="text" class="form-control" id="id_kategori" name="id_kategori" value="1" hidden>
+
                                     <div class="form-group">
                                         <div class="row">
                                             <p>File</p>

@@ -28,13 +28,18 @@ class Inspect_model extends CI_Model
 
     function getDataById($id)
     {
-        $this->db->where('id', $id);
-        return $this->db->get('db_inject');
+        return $this->db->get_where('user_file', ['id' => $id])->result();
     }
+
     function getDataByIdPerbulan($id)
     {
         $this->db->where('id', $id);
         return $this->db->get('user_data_perbulan');
+    }
+
+    function get_user_judul()
+    {
+        return $this->db->get('user_judul')->result();
     }
 
     function updateFilePerbulan($where, $data, $table)
@@ -49,14 +54,35 @@ class Inspect_model extends CI_Model
         return $this->db->get('user_data_perbulan')->result();
     }
 
-    function ambilDataKomputer()
+    function get_data_twiwulan()
     {
-        $query = $this->db->get('data_triwulan')->result_array();
+        $query = $this->db->get_where('user_file', ['id_kategori' => '1'])->result_array();
         return $query;
     }
-    function ambilDataBulanan()
+
+    
+
+    function get_triwulan()
     {
-        $query = $this->db->get('user_data_perbulan')->result_array();
+        $this->db->select('*');
+        $this->db->from('user_file');
+        $this->db->join('user_judul', 'user_file.id_judul = user_judul.id_judul');
+        $this->db->join('user_kategori_judul', 'user_file.id_kategori = user_kategori_judul.id_kategori');
+        $this->db->where('user_file.id_kategori', '1');
+        $this->db->order_by('user_file.id', 'ASC');
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
+    function get_perbulan()
+    {
+        $this->db->select('*');
+        $this->db->from('user_file');
+        $this->db->join('user_judul', 'user_file.id_judul = user_judul.id_judul');
+        $this->db->join('user_kategori_judul', 'user_file.id_kategori = user_kategori_judul.id_kategori');
+        $this->db->where('user_file.id_kategori', '2');
+        $this->db->order_by('user_file.id', 'ASC');
+        $query = $this->db->get()->result_array();
         return $query;
     }
 
@@ -100,22 +126,25 @@ class Inspect_model extends CI_Model
     function getDataByIdTriwulan($id)
     {
         $this->db->where('id', $id);
-        return $this->db->get('data_triwulan');
+        return $this->db->get('user_file');
+    }
+
+    function get_data_by_id_triwulan($id)
+    {
+        $this->db->select('*');
+        $this->db->from('user_file');
+        $this->db->join('user_judul', 'user_file.id_judul = user_judul.id_judul');
+        $this->db->where('id', $id);
+        $query = $this->db->get();
+        return $query;
     }
 
     public function hapus_data_Triwulan($id)
     {
-
-        $hasil = $this->db->query("DELETE FROM data_triwulan WHERE id='$id'");
+        $hasil = $this->db->query("DELETE FROM user_file WHERE id='$id'");
         return $hasil;
     }
-    public function hapus_data_Perbulan($id)
-    {
-
-        $hasil = $this->db->query("DELETE FROM user_data_perbulan WHERE id='$id'");
-        return $hasil;
-    }
-
+    
 
     public function get_keyword($keyword)
     {

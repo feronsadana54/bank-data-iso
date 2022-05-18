@@ -42,22 +42,23 @@
                                                             <th scope="col">Judul</th>
                                                             <th scope="col">Nama Berkas</th>
                                                             <th scope="col">Tanggal Input</th>
-                                                            <th scope="col">bussinnes_area</th>
+                                                            <th scope="col">Bisnis Area</th>
                                                             <th scope="col" colspan="2">AKSI</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($data as $d) : ?>
+                                                        <?php foreach ($judul as $d) : ?>
                                                             <tr>
                                                                 <th scope="row"><?= $i; ?></th>
-                                                                <td><?= $d['judul_file']; ?></td>
+                                                                <td><?= $d['judul']; ?></td>
                                                                 <td><?= $d['nama_berkas']; ?></td>
                                                                 <td><?= $d['tanggal']; ?></td>
-                                                                <td><?= $d['bussinnes_area']; ?></td>
+                                                                <td><?= $d['bisnis_area']; ?></td>
                                                                 <td>
+                                                                    <a href="<?php echo base_url() ?>Joint/edit_data_triwulan/<?php echo $d['id'] ?>" class="badge badge-info"> Edit</a>
                                                                     <a href="<?php echo base_url() ?>Joint/hapus_data_triwulan/<?php echo $d['id'] ?>" class="badge badge-danger"> Hapus</a>
-                                                                    <a href="<?php echo base_url(); ?>Joint/download_triwulan/<?php echo $d['nama_berkas']; ?>" class="badge badge-success"> Download</a>
+                                                                    <a href="<?php echo base_url(); ?>Joint/download_triwulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
                                                                 </td>
                                                             </tr>
 

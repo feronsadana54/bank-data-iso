@@ -13,7 +13,7 @@
             	</aside>
             	
             	<div class="kat">
-            	<h3>Kategori</h3>
+            	<h3>Form Iso</h3>
             	</div>
 
             	<div class="boxiso">

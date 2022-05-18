@@ -26,10 +26,10 @@
                                     <div class="form-group">
                                         <div class="row">
                                             <p>Judul File</p>
-                                            <select name="judul_file" id="judul_file" class="form-control">
+                                            <select name="id_judul" id="id_judul" class="form-control">
 
                                                 <?php foreach ($getjudul as $gj) : ?>
-                                                    <option value="<?= $gj['judul']; ?>"><?= $gj['judul']; ?></option>
+                                                    <option value="<?= $gj['id_judul']; ?>"><?= $gj['judul']; ?></option>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
@@ -40,45 +40,15 @@
                                             <input type="text" class="form-control" id="bisnis_area" name="bisnis_area" placeholder="masukkan kode">
                                         </div>
                                     </div>
+
+                                    <input type="text" class="form-control" id="id_kategori" name="id_kategori" value="2" hidden>
+
                                     <div class="form-group">
                                         <div class="row">
                                             <p>File</p>
-                                            <input type="file" name="userfile" size="20" class="form-control">
+                                            <input type="file" name="nama_berkas" size="20" class="form-control">
                                         </div>
                                     </div>
-
-
-
-                                    <!-- <div class="form-group">
-                        <select name="bulan" id="bulan" class="form-control">
-                          <option value="Januari">Januari</option>
-                          <option value="Februari">Februari</option>
-                          <option value="Maret">Maret</option>
-                          <option value="April">April</option>
-                          <option value="Mei">Mei</option>
-                          <option value="Juni">Juni</option>
-                          <option value="Juli">Juli</option>
-                          <option value="Agustus">Agustus</option>
-                          <option value="September">September</option>
-                          <option value="Oktober">Oktober</option>
-                          <option value="November">November</option>
-                          <option value="Desember">Desember</option>
-                        </select>
-                      </div>
-                      <div class="form-group">
-                        <select name="tahun" id="tahun" class="form-control">
-                          <option value="2021">2021</option>
-                          <option value="2022">2022</option>
-                          <option value="2023">2023</option>
-                          <option value="2024">2024</option>
-                          <option value="2025">2025</option>
-                        </select>
-                      </div> -->
-                                    <!-- <br>
-                      <div class="form-group">
-                        <input type="file" name="userfile" size="20">
-                      </div> -->
-
 
                                 </div>
                                 <div class="final">

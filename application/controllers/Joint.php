@@ -9,7 +9,7 @@ class Joint extends CI_Controller
         parent::__construct();
         $this->load->helper('url', 'form');
         $this->load->library('form_validation');
-        $this->load->model('inspect_model');
+        $this->load->model('inspect_model', 'inspect');
         $this->load->helper('url');
     }
 
@@ -107,7 +107,7 @@ class Joint extends CI_Controller
         $this->load->library('form_validation');
         $data['getjudul'] = $this->inspect->ambilDataTriwulan();
 
-        $this->form_validation->set_rules('bussinnes_area', 'Bisnis Area', 'required');
+        $this->form_validation->set_rules('bisnis_area', 'Bisnis Area', 'required');
 
 
         if ($this->form_validation->run() == false) {
@@ -119,7 +119,6 @@ class Joint extends CI_Controller
         } else {
             $config['upload_path']          = './uploads/triwulan/';
             $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
-            $config['max_size']             = 5000;
             // $config['max_width']            = 1024;
             // $config['max_height']           = 768;
 
@@ -133,13 +132,14 @@ class Joint extends CI_Controller
             } else {
                 $data = [
                     'nama_berkas' => $this->upload->data('file_name'),
-                    'judul_file' => $this->input->post('judul_file'),
-                    'bussinnes_area' => $this->input->post('bussinnes_area'),
+                    'id_judul' => $this->input->post('id_judul'),
+                    'bisnis_area' => $this->input->post('bisnis_area'),
                     'file' => $this->upload->data('file_ext'),
-                    'tanggal' => date('Y-m-d H:i:s')
+                    'tanggal' => date('Y-m-d H:i:s'),
+                    'id_kategori' => $this->input->post('id_kategori'),
                 ];
-                $this->db->insert('data_triwulan', $data);
-                redirect('joint/iso');
+                $this->db->insert('user_file', $data);
+                redirect('joint');
             }
         }
     }
@@ -150,9 +150,7 @@ class Joint extends CI_Controller
     {
         $data['title'] = 'Halaman Perbulan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $this->load->model('inspect_model', 'inspect');
         $data['getjudul'] = $this->inspect->ambilDataPerbulan();
-        $this->load->library('form_validation');
         $this->form_validation->set_rules('bisnis_area', 'Bisnis Area', 'required');
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
@@ -163,26 +161,27 @@ class Joint extends CI_Controller
         } else {
             $config['upload_path']          = './uploads/perbulan/';
             $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
-            $config['max_size']             = 5000;
             // $config['max_width']            = 1024;
             // $config['max_height']           = 768;
 
             $this->load->library('upload', $config);
             $this->upload->initialize($config);
 
-            if (!$this->upload->do_upload('userfile')) {
+            if (!$this->upload->do_upload('nama_berkas')) {
                 $error = array('error' => $this->upload->display_errors());
                 $this->load->view('kategori/perbulan', $error);
             } else {
                 $data = [
                     'nama_berkas' => $this->upload->data('file_name'),
-                    'judul_file' => $this->input->post('judul_file'),
+                    'id_judul' => $this->input->post('id_judul'),
                     'bisnis_area' => $this->input->post('bisnis_area'),
                     'file' => $this->upload->data('file_ext'),
-                    'tanggal' => date('Y-m-d H:i:s')
+                    'tanggal' => date('Y-m-d H:i:s'),
+                    'id_kategori' => $this->input->post('id_kategori'),
                 ];
-                $this->db->insert('user_data_perbulan', $data);
-                redirect('joint/iso');
+
+                $this->db->insert('user_file', $data);
+                redirect('joint');
             }
         }
     }
@@ -248,7 +247,7 @@ class Joint extends CI_Controller
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
-        $data['data'] = $this->inspect->ambilDataKomputer();
+        $data['judul'] = $this->inspect->get_triwulan();
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -256,10 +255,71 @@ class Joint extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function edit_data_triwulan($id)
+    {
+        $data['title'] = 'Edit Data Triwulan';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['temp'] = $this->inspect->getDataById($id);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('data/edit_triwulan', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update_triwulan()
+    {
+        $id = $this->input->post('id');
+        $bisnis_area = $this->input->post('bisnis_area');
+        $nama_berkas = $_FILES['nama_berkas']['name'];
+        $config['upload_path']          = './uploads/triwulan/';
+        $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
+
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
+
+        if (!$this->upload->do_upload('nama_berkas')) {
+            $data = array(
+                'bisnis_area' => $bisnis_area
+            );
+
+
+
+            $where = array(
+                'id' => $id
+            );
+
+            
+
+            $this->inspect->update_data($where, $data, 'user_file');
+            redirect('joint/tampil_data_triwulan');
+        } else {
+            $item = $this->inspect->getDataByIdtriwulan($id)->row();
+            if ($item->nama_berkas != null) {
+                $target = './uploads/triwulan/' . $item->nama_berkas;
+                unlink($target);
+            }
+            $nama_berkas = $this->upload->data('file_name');
+            $data = array(
+                'bisnis_area' => $bisnis_area,
+                'nama_berkas' => $nama_berkas,
+            );
+
+            $where = array(
+                'id' => $id
+            );
+
+            $this->inspect->update_data($where, $data, 'user_file');
+            redirect('joint/tampil_data_triwulan');
+        }
+    }
+    
     public function download_triwulan($id)
     {
-        $data = $this->db->get_where('data_triwulan', ['nama_berkas' => $id])->row();
-        force_download('uploads/triwulan/' . $data->nama_berkas, Null);
+        $data = $this->db->get_where('user_file', ['id' => $id])->row_array();
+        $low = force_download('uploads/triwulan/' . $data['nama_berkas'], NULL);
+        var_dump($low);
+        die;
     }
 
     public function hapus_data_triwulan($id)
@@ -268,7 +328,9 @@ class Joint extends CI_Controller
         $this->db->where('id', $id);
 
         $data = $this->inspect->getDataByIdtriwulan($id)->row();
-        $nama = './uploads/triwulan/' . $data->file;
+        $nama = './uploads/triwulan/' . $data->nama_berkas;
+
+       
 
         if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
         {
@@ -286,108 +348,54 @@ class Joint extends CI_Controller
     {
         $data['title'] = 'Edit Iso Perbulan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['data'] = $this->inspect_model->getDataByIdperbulan($id)->row();
-        $where = array('id' => $id);
-        $data['user_kat'] = $this->inspect_model->edit_data($where, 'user_data_perbulan')->result();
-        $data['perbulan'] = $this->db->get('user_data_perbulan')->row_array();
+        $data['data'] = $this->inspect->getDataById($id);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
         $this->load->view('data/edit_perbulan', $data);
         $this->load->view('templates/footer');
-
-        // $data['title'] = 'Edit Iso Perbulan';
-        // $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        // $this->load->model('inspect_model', 'inspect');
-        // $data['perbulan'] = $this->db->get('user_data_perbulan')->row_array();
-        // // if ($this->form_validation->run() == false) {
-        // $this->load->view('templates/header', $data);
-        // $this->load->view('templates/sidebar', $data);
-        // $this->load->view('templates/topbar', $data);
-        // $this->load->view('data/edit_perbulan', $data);
-        // $this->load->view('templates/footer');
-        // } else {
-        //     $data = [
-        //         'title' => $this->input->post('title'),
-        //         'menu_id' => $this->input->post('menu_id'),
-        //         'url' => $this->input->post('url'),
-        //         'icon' => $this->input->post('icon')
-        //     ];
-
-        //     $this->db->insert('user', $data);
-        //     $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        //     Akun berhasil ditambahkan
-        //   </div>');
-        //     redirect('admin/manageakun');
-        // }
     }
 
     public function update_perbulan()
     {
         $id = $this->input->post('id');
-        $nama_file = $this->input->post('nama_file');
         $bisnis_area = $this->input->post('bisnis_area');
-        $mengetahui = $this->input->post('mengetahui');
-        $petugas = $this->input->post('petugas');
+        $nama_berkas = $_FILES['nama_berkas']['name'];
+        $config['upload_path']          = './uploads/perbulan/';
+        $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
 
+        $this->load->library('upload', $config);
+        $this->upload->initialize($config);
 
-        $data = array(
-            'nama_file' => $nama_file,
-            'bisnis_area' => $bisnis_area,
-            'mengetahui' => $mengetahui,
-            'petugas' => $petugas,
+        if (!$this->upload->do_upload('nama_berkas')) {
+            $data = array(
+                'bisnis_area' => $bisnis_area
+            );
 
-        );
+            $where = array(
+                'id' => $id
+            );
+            $this->inspect->update_data($where, $data, 'user_file');
+            redirect('joint/tampil_data_perbulan');
+        } else {
+            $item = $this->inspect->getDataByIdtriwulan($id)->row();
+            if ($item->nama_berkas != null) {
+                $target = './uploads/perbulan/' . $item->nama_berkas;
+                unlink($target);
+            }
+            $nama_berkas = $this->upload->data('file_name');
+            $data = array(
+                'bisnis_area' => $bisnis_area,
+                'nama_berkas' => $nama_berkas,
+            );
 
-        $where = array(
-            'id' => $id
-        );
+            $where = array(
+                'id' => $id
+            );
 
-        $this->inspect_model->update_data($where, $data, 'user_data_perbulan');
-        redirect('joint/tampil_perbulan');
-    }
-
-    public function edit_triwulan($id)
-    {
-        $data['title'] = 'Edit Iso Triwulan';
-        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['data'] = $this->inspect_model->getDataByIdTriwulan($id)->row();
-        $where = array('id' => $id);
-        $data['user_kat'] = $this->inspect_model->edit_data($where, 'data_triwulan')->result();
-        $data['triwulan'] = $this->db->get('data_triwulan')->row_array();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar', $data);
-        $this->load->view('templates/topbar', $data);
-        $this->load->view('data/edit_triwulan', $data);
-        $this->load->view('templates/footer');
-    }
-
-
-    public function update_triwulan()
-    {
-        $id = $this->input->post('id');
-        $nama_file = $this->input->post('nama_file');
-        $bussinnes_area = $this->input->post('bussinnes_area');
-        $nomor_surat = $this->input->post('nomor_surat');
-        $nama_mengetahui = $this->input->post('nama_mengetahui');
-
-
-
-        $data = array(
-            'nama_file' => $nama_file,
-            'bussinnes_area' => $bussinnes_area,
-            'nomor_surat' => $nomor_surat,
-            'nama_mengetahui' => $nama_mengetahui
-
-
-        );
-
-        $where = array(
-            'id' => $id
-        );
-
-        $this->inspect_model->update_data($where, $data, 'data_triwulan');
-        redirect('joint/tampil_perbulan');
+            $this->inspect->update_data($where, $data, 'user_file');
+            redirect('joint/tampil_data_perbulan');
+        }
     }
 
     public function tampil_data_perbulan()
@@ -395,7 +403,7 @@ class Joint extends CI_Controller
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
-        $data['data'] = $this->inspect->ambilDataBulanan();
+        $data['data'] = $this->inspect->get_perbulan();
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -406,8 +414,8 @@ class Joint extends CI_Controller
 
     public function download_perbulan($id)
     {
-        $data = $this->db->get_where('user_data_perbulan', ['nama_berkas' => $id])->row();
-        force_download('uploads/perbulan/' . $data->nama_berkas, Null);
+        $data = $this->db->get_where('user_file', ['id' => $id])->row_array();
+        force_download('uploads/perbulan/' . $data['nama_berkas'], NULL);
     }
 
     public function hapus_data_perbulan($id)
@@ -415,63 +423,22 @@ class Joint extends CI_Controller
         $this->load->model('inspect_model', 'inspect');
         $this->db->where('id', $id);
 
-        $data = $this->inspect->getDataByIdPerbulan($id)->row();
-        $nama = './uploads/perbulan/' . $data->file;
+        $data = $this->inspect->getDataByIdtriwulan($id)->row();
+        $nama = './uploads/perbulan/' . $data->nama_berkas;
 
         if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
         {
-            $this->inspect_model->hapus_data_Perbulan($id);
-            redirect('joint');
+            $this->inspect->hapus_data_triwulan($id);
+            redirect('joint/tampil_data_perbulan');
         } else if (!is_readable($nama)) {
-            $this->inspect_model->hapus_data_Perbulan($id);
-            redirect('joint');
+            $this->inspect->hapus_data_triwulan($id);
+            redirect('joint/tampil_data_perbulan');
         } else {
             echo 'gagal';
         }
     }
 
-    public function editPerbulan($id)
-    {
-        $id = $this->input->post('id');
-        $data = $this->inspect_model->getDataByIdPerbulan($id)->row();
-        // var_dump($data);
-        // die;
-        $nama = './uploads/perbulan/' . $data->file;
-        // $x = is_readable($nama) && unlink($nama);
-
-        if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
-        {
-            $config['upload_path']          = './uploads/perbulan/';
-            $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
-            $config['max_size']             = 5000;
-            // $config['max_width']            = 1024;
-            // $config['max_height']           = 768;
-
-            $this->load->library('upload', $config);
-            $this->upload->initialize($config);
-
-            if (!$this->upload->do_upload('userfile')) {
-                $error = array('error' => $this->upload->display_errors());
-
-                var_dump($error);
-            } else {
-                $data = [
-                    // 'judul' => $this->input->post('judul'),
-                    'file' => $this->upload->data('file_name'),
-                    // 'bulan' => $this->input->post('bulan'),
-                    // 'tahun' => $this->input->post('tahun'),
-                    'format' => $this->upload->data('file_ext'),
-                    'tanggal' => date('Y-m-d H:i:s')
-                ];
-
-                $this->inspect_model->updateFilePerbulan($id, $data);
-
-                redirect('joint/kategori');
-            }
-        } else {
-            echo "Gagal";
-        }
-    }
+    
     public function search()
     {
         $data['title'] = 'Data Komputer';
