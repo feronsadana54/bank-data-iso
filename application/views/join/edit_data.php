@@ -1,51 +1,40 @@
-x
-<!--main content start-->
-<section id="main-content">
-    <section class="wrapper">
-        <!--overview start-->
-        <div class="row">
-            <div class="col-lg-12">
-                <h3 class="page-header"><?= $title; ?></h3>
+    <!--main content start-->
+    <section id="main-content">
+        <section class="wrapper">
+            <!--overview start-->
+            <div class="rowa">
+                <div class="col-lg-12">
+                    <h3 class="page-header"><i class="fa fa-laptop"></i>Kereta Api Indonesia </h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i>Home</li>
+                        <li><i class="fa fa-laptop"></i><?= $title; ?></li>
+                    </ol>
+                </div>
             </div>
-        </div>
 
-        <?= $this->session->flashdata('message'); ?>
-        <div class="row">
-            <div class="col-lg-12">
-                <section class="panel">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <?php foreach ($user_kat as $u) { ?>
-                                    <?php echo form_open_multipart('joint/editUpload'); ?>
-                                    <input type="hidden" name="id" value="<?php echo $u->id ?>">
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="judul" name="judul" placeholder="<?= $data['judul']; ?>" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="bulan" name="bulan" placeholder="<?= $data['bulan']; ?>" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" class="form-control" id="tahun" name="tahun" placeholder="<?= $data['tahun']; ?>" readonly>
-                                        </div>
-                                        <br>
-                                        <div class="form-group">
-                                            <input type="file" name="userfile" size="20">
-                                        </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <?= $this->session->flashdata('message'); ?>
+                        <form action="<?= base_url('joint/update_iso'); ?>" method="post">
+                            <div class="form-group">
+                                <?php foreach ($judul as $j) { ?>
+                                    <label for="name">Masukkan Nama</label>
+                                    <input type="hidden" class="form-control" id="id_judul" name="id_judul" value="<?php echo $j->id_judul ?>">
+                                    <input type="text" class="form-control" id="judul" name="judul" placeholder="Masukkan nama" value="<?php echo $j->judul ?>">
 
-                                    </div>
-                                    <button type="submit" class="btn btn-primary"> Edit Data</button>
-                                <?php } ?>
+                                    <?php echo form_error('name', '<small class="text-danger">', '</small>'); ?>
                             </div>
-                        </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary">Edit</button>
+                            <?php } ?>
+                            </div>
+                        </form>
 
                     </div>
-
-                </section>
+                </div>
             </div>
-        </div>
-    </section>
-    <!--main content end-->
-</section>
-<!-- container section start -->
+
+            <!--main content end-->
+        </section>
+        <!-- container section start -->

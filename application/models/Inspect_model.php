@@ -31,6 +31,11 @@ class Inspect_model extends CI_Model
         return $this->db->get_where('user_file', ['id' => $id])->result();
     }
 
+    function getDataByIdISO($id)
+    {
+        return $this->db->get_where('user_judul', ['id_judul' => $id]);
+    }
+
     function getDataByIdPerbulan($id)
     {
         $this->db->where('id', $id);
@@ -60,7 +65,41 @@ class Inspect_model extends CI_Model
         return $query;
     }
 
-    
+    function get_kategori_judul_triwulan($id)
+    {
+        $kategori = "SELECT * 
+        FROM `user_file` JOIN `user_judul`
+        ON `user_judul`.`id_judul` = `user_file`.`id_judul`
+        LEFT JOIN `user_kategori_judul`
+        ON `user_kategori_judul`.`id_kategori` = `user_file`.`id_kategori`
+        WHERE `user_judul`.`id_judul` = $id
+        AND
+         `user_file`.`id_kategori` = 1
+        ORDER BY `user_file`.`id` ASC
+        ";
+
+        
+        $val = $this->db->query($kategori)->result_array();
+        return $val;
+    }
+
+    function get_kategori_judul_perbulan($id)
+    {
+        $kategori = "SELECT * 
+        FROM `user_file` JOIN `user_judul`
+        ON `user_judul`.`id_judul` = `user_file`.`id_judul`
+        LEFT JOIN `user_kategori_judul`
+        ON `user_kategori_judul`.`id_kategori` = `user_file`.`id_kategori`
+        WHERE `user_judul`.`id_judul` = $id
+        AND
+         `user_file`.`id_kategori` = 2
+        ORDER BY `user_file`.`id` ASC
+        ";
+
+        
+        $val = $this->db->query($kategori)->result_array();
+        return $val;
+    }
 
     function get_triwulan()
     {
@@ -86,9 +125,9 @@ class Inspect_model extends CI_Model
         return $query;
     }
 
-    function ambilDataTriwulan()
+    function ambilDataJudul()
     {
-        $query = $this->db->get_where('user_judul', ['kategori_id' => '1'])->result_array();
+        $query = $this->db->get('user_judul')->result_array();
         return $query;
     }
     function ambilDataPerbulan()
@@ -144,6 +183,13 @@ class Inspect_model extends CI_Model
         $hasil = $this->db->query("DELETE FROM user_file WHERE id='$id'");
         return $hasil;
     }
+
+    public function hapus_data_iso($id)
+    {
+        $hasil = $this->db->query("DELETE FROM user_judul WHERE id_judul ='$id'");
+        return $hasil;
+    }
+    
     
 
     public function get_keyword($keyword)

@@ -16,17 +16,18 @@
                     <h3>Kategori</h3>
                 </div>
 
+
                 <div class="boxiso">
                     <div class="row">
                         <div class="boxin">
                             <div class="col-m-6 tri">
-                                <a href="<?php echo base_url() ?>joint/tampil_data_triwulan" class="btn btn-primary">Triwulan</a>
+                                <a href="<?php echo base_url() ?>joint/tampil_data_triwulan/<?= $judul['id_judul'] ?>" class="btn btn-primary">Triwulan</a>
                             </div>
                         </div>
 
                         <div class="boxin">
                             <div class="col-m-6">
-                                <a href="<?php echo base_url() ?>joint/tampil_data_perbulan" class="btn btn-primary">Perbulan</a>
+                                <a href="<?php echo base_url() ?>joint/tampil_data_perbulan/<?= $judul['id_judul'] ?>" class="btn btn-primary">Perbulan</a>
                             </div>
                         </div>
                     </div>

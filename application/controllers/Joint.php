@@ -25,58 +25,21 @@ class Joint extends CI_Controller
         $this->load->view('join/kategori_file', $data);
         $this->load->view('templates/footer');
     }
-    // public function index()
-    // {
-    //     $data['title'] = 'Kategori file';
-    //     $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
 
-    //     // pagination
-    //     $this->load->library('pagination');
+    public function tampil_perdata($id)
+    {
+        $data['title'] = 'Kategori file';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        // $data['judul'] = $this->inspect->get_user_judul();
+        $data['judul'] = $this->db->get_where('user_judul', ['id_judul' => $id])->row_array();
+        // $data['kategori'] = $this->inspect->get_kategori_judul($uri);
 
-    //     // config
-    //     $config['base_url'] = 'http://localhost/cobaLogin/joint/kategori';
-    //     $config['total_rows'] = $this->inspect_model->hitungSemuaData();
-    //     $config['per_page'] = 12;
-    //     $config['num_links'] = 3;
-
-    //     // Style
-    //     $config['full_tag_open'] = '<nav">
-    //     <ul class="pagination justify-content-center">';
-    //     $config['full_tag_close'] = '</ul>
-    //     </nav>';
-
-
-    //     $config['first_link'] = 'First';
-    //     $config['first_tag_open'] = ' <li class="page-item">';
-    //     $config['first_tag_close'] = ' </li>';
-
-    //     $config['next_link'] = '&raquo';
-    //     $config['next_tag_open'] = ' <li class="page-item">';
-    //     $config['next_tag_close'] = ' </li>';
-
-    //     $config['prev_link'] = '&laquo';
-    //     $config['prev_tag_open'] = ' <li class="page-item">';
-    //     $config['prev_tag_close'] = ' </li>';
-
-    //     $config['cur_tag_open'] = ' <li class="page-item active"><a class="page-link" href="#">';
-    //     $config['cur_tag_close'] = '</a></li>';
-
-    //     $config['num_tag_open'] = ' <li class="page-item">';
-    //     $config['num_tag_close'] = ' </li>';
-
-    //     $config['attributes'] = array('class' => 'page-link');
-
-    //     // inisialisasi
-    //     $this->pagination->initialize($config);
-
-    //     $data['start'] = $this->uri->segment(3);
-    //     $data['inject'] = $this->inspect_model->getUrutData($config['per_page'], $data['start']);
-    //     $this->load->view('templates/header', $data);
-    //     $this->load->view('templates/sidebar', $data);
-    //     $this->load->view('templates/topbar', $data);
-    //     $this->load->view('join/kategori_file', $data);
-    //     $this->load->view('templates/footer');
-    // }
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('join/kategori_file', $data);
+        $this->load->view('templates/footer');
+    }
 
     public function ISO()
     {
@@ -105,7 +68,7 @@ class Joint extends CI_Controller
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
         $this->load->library('form_validation');
-        $data['getjudul'] = $this->inspect->ambilDataTriwulan();
+        $data['getjudul'] = $this->inspect->ambilDataJudul();
 
         $this->form_validation->set_rules('bisnis_area', 'Bisnis Area', 'required');
 
@@ -139,7 +102,7 @@ class Joint extends CI_Controller
                     'id_kategori' => $this->input->post('id_kategori'),
                 ];
                 $this->db->insert('user_file', $data);
-                redirect('joint');
+                redirect('joint/iso');
             }
         }
     }
@@ -150,7 +113,7 @@ class Joint extends CI_Controller
     {
         $data['title'] = 'Halaman Perbulan';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $data['getjudul'] = $this->inspect->ambilDataPerbulan();
+        $data['getjudul'] = $this->inspect->ambilDataJudul();
         $this->form_validation->set_rules('bisnis_area', 'Bisnis Area', 'required');
         if ($this->form_validation->run() == false) {
             $this->load->view('templates/header', $data);
@@ -181,7 +144,7 @@ class Joint extends CI_Controller
                 ];
 
                 $this->db->insert('user_file', $data);
-                redirect('joint');
+                redirect('joint/iso');
             }
         }
     }
@@ -218,7 +181,7 @@ class Joint extends CI_Controller
         $data['title'] = 'Input Iso';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
-        $data['judul'] = $this->db->get('user_kategori_judul')->result_array();
+        $data['judul'] = $this->db->get('user_judul')->result_array();
 
         $this->form_validation->set_rules('judul', 'Judul', 'required');
 
@@ -230,16 +193,61 @@ class Joint extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $data = [
-                'judul' => $this->input->post('judul'),
-                'kategori_id' => $this->input->post('kategori')
+                'judul' => $this->input->post('judul')
             ];
 
             $this->db->insert('user_judul', $data);
             $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Submenu berhasil ditambahkan
           </div>');
-            redirect('joint');
+            redirect('joint/inputiso');
         }
+    }
+
+    function hapus_iso($id)
+    {
+        $this->load->model('inspect_model', 'inspect');
+        $this->inspect->hapus_data_iso($id);
+        $id = $this->input->post('id');
+        redirect('joint/inputiso');
+    }
+
+    public function edit_iso($id)
+    {
+        $this->load->model('Inspect_model', 'inspect');
+        $data['title'] = 'Edit ISO';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['data'] = $this->db->get_where('user_judul', ['id_judul' => $id])->row_array();
+        $where = array('id_judul' => $id);
+        $data['judul'] = $this->inspect->edit_data($where, 'user_judul')->result();
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('join/edit_data', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function update_iso()
+    {
+        $this->load->model('Inspect_model', 'inspect');
+        $id = $this->input->post('id_judul');
+        $data = $this->inspect->getDataByIdISO($id)->row();
+        $judul = $this->input->post('judul');
+
+        $data = array(
+            'judul' => $judul
+        );
+
+        $where = array(
+            'id_judul' => $id
+        );
+
+
+        $this->inspect->update_data($where, $data, 'user_judul');
+        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
+            Akun berhasil diupdate
+          </div>');
+        redirect('joint/inputiso');
     }
 
     public function tampil_data_triwulan()
@@ -247,7 +255,8 @@ class Joint extends CI_Controller
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
-        $data['judul'] = $this->inspect->get_triwulan();
+        $uri = $this->uri->segment(3);
+        $data['judul'] = $this->inspect->get_kategori_judul_triwulan($uri);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
@@ -272,6 +281,7 @@ class Joint extends CI_Controller
         $id = $this->input->post('id');
         $bisnis_area = $this->input->post('bisnis_area');
         $nama_berkas = $_FILES['nama_berkas']['name'];
+        $id_judul = $this->input->post('id_judul');
         $config['upload_path']          = './uploads/triwulan/';
         $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
 
@@ -292,7 +302,7 @@ class Joint extends CI_Controller
             
 
             $this->inspect->update_data($where, $data, 'user_file');
-            redirect('joint/tampil_data_triwulan');
+            redirect('joint/tampil_data_triwulan/'. $id_judul);
         } else {
             $item = $this->inspect->getDataByIdtriwulan($id)->row();
             if ($item->nama_berkas != null) {
@@ -310,7 +320,7 @@ class Joint extends CI_Controller
             );
 
             $this->inspect->update_data($where, $data, 'user_file');
-            redirect('joint/tampil_data_triwulan');
+            redirect('joint/tampil_data_triwulan/'. $id_judul);
         }
     }
     
@@ -334,11 +344,11 @@ class Joint extends CI_Controller
 
         if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
         {
-            $this->inspect_model->hapus_data_triwulan($id);
-            redirect('joint');
+            $this->inspect->hapus_data_triwulan($id);
+            redirect('joint/iso');
         } else if (!is_readable($nama)) {
-            $this->inspect_model->hapus_data_triwulan($id);
-            redirect('joint');
+            $this->inspect->hapus_data_triwulan($id);
+            redirect('joint/iso');
         } else {
             echo 'gagal';
         }
@@ -360,6 +370,7 @@ class Joint extends CI_Controller
     {
         $id = $this->input->post('id');
         $bisnis_area = $this->input->post('bisnis_area');
+        $id_judul = $this->input->post('id_judul');
         $nama_berkas = $_FILES['nama_berkas']['name'];
         $config['upload_path']          = './uploads/perbulan/';
         $config['allowed_types']        = 'doc|docx|xls|xlsx|pdf';
@@ -376,7 +387,7 @@ class Joint extends CI_Controller
                 'id' => $id
             );
             $this->inspect->update_data($where, $data, 'user_file');
-            redirect('joint/tampil_data_perbulan');
+            redirect('joint/tampil_data_perbulan/'. $id_judul);
         } else {
             $item = $this->inspect->getDataByIdtriwulan($id)->row();
             if ($item->nama_berkas != null) {
@@ -394,7 +405,7 @@ class Joint extends CI_Controller
             );
 
             $this->inspect->update_data($where, $data, 'user_file');
-            redirect('joint/tampil_data_perbulan');
+            redirect('joint/tampil_data_perbulan/'. $id_judul);
         }
     }
 
@@ -403,7 +414,8 @@ class Joint extends CI_Controller
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $this->load->model('inspect_model', 'inspect');
-        $data['data'] = $this->inspect->get_perbulan();
+        $uri = $this->uri->segment(3);
+        $data['judul'] = $this->inspect->get_kategori_judul_perbulan($uri);
 
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
@@ -429,10 +441,10 @@ class Joint extends CI_Controller
         if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
         {
             $this->inspect->hapus_data_triwulan($id);
-            redirect('joint/tampil_data_perbulan');
+            redirect('joint/tampil_data_perbulan/'. $data->id_judul);
         } else if (!is_readable($nama)) {
             $this->inspect->hapus_data_triwulan($id);
-            redirect('joint/tampil_data_perbulan');
+            redirect('joint/tampil_data_perbulan/'. $data->id_judul);
         } else {
             echo 'gagal';
         }

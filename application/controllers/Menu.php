@@ -72,9 +72,9 @@ class Menu extends CI_Controller
     function hapus($id)
     {
         $this->load->model('Menu_model');
-        $this->Menu_model->hapus_data_sub($id);
+        $this->Menu_model->hapus_data($id);
         $id = $this->input->post('id');
-        redirect('Menu/submenu');
+        redirect('Menu');
     }
 
 
@@ -108,9 +108,7 @@ class Menu extends CI_Controller
             'id' => $id
         );
 
-        var_dump($id);
-
-        $this->admin->update_data($where, $data, 'user_menu');
+        $this->menu->update_data($where, $data, 'user_menu');
         $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
             Akun berhasil diupdate
           </div>');

@@ -36,7 +36,7 @@
                                 <?= $m['menu']; ?>
                             </td>
                             <td>
-                                <!-- <a href="<?php echo base_url() ?>menu/edit/<?php echo $m['id'] ?>"></span><span class="badge badge-success">Edit</span></a> -->
+                                <a href="<?php echo base_url() ?>menu/edit/<?php echo $m['id'] ?>"></span><span class="badge badge-success">Edit</span></a>
                                 <a href="<?php echo base_url() ?>menu/hapus/<?php echo $m['id'] ?>"><span class="badge badge-danger">Delete</span></a>
                             </td>
                         </tr>

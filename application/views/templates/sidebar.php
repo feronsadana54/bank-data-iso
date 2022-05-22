@@ -27,6 +27,17 @@
         $menu = $this->db->query($queryMenu)->result_array();
         ?>
 
+        <?php
+        $kategori = "SELECT * 
+        FROM `user_judul`
+        WHERE `user_judul`.`id_judul`
+        ORDER BY `user_judul`.`id_judul` ASC
+        ";
+        
+        $judul = $this->db->query($kategori)->result_array();
+        ?>
+        
+
      <!-- Looping Menu -->
      <?php foreach ($menu as $m) : ?>
          <div class="sidebar-heading">
@@ -42,17 +53,48 @@
             $subMenu = $this->db->query($querySubMenu)->result_array();
             ?>
 
+
+
          <?php foreach ($subMenu as $sm) : ?>
 
              <?php if ($title == $sm['title']) : ?>
                  <li class="nav-item active">
-                 <?php else : ?>
-                 <li class="nav-item">
-                 <?php endif; ?>
                  <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
                      <i class="<?= $sm['icon']; ?>"></i>
                      <span><?= $sm['title']; ?></span></a>
                  </li>
+
+                 <!-- Drobdown user -->
+                 <?php elseif ($sm['url'] == "joint") :?>
+                    <li class="dropdown">
+                        <a class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= $sm['title']; ?>
+                         </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <?php foreach ($judul as $j) : ?>
+                                <a class="dropdown-item" href="<?= base_url('joint/tampil_perdata/'.$j['id_judul']); ?>"><?= $j['judul']; ?></a>
+                            <?php endforeach; ?>
+                    </li>
+                    
+                    <!-- Dropdown manager -->
+                    <?php elseif ($sm['url'] == "manager/kategori_file") :?>
+                     <li class="dropdown">
+                        <a class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <?= $sm['title']; ?>
+                         </a>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                            <?php foreach ($judul as $j) : ?>
+                                <a class="dropdown-item" href="<?= base_url('joint/'.$j['id_judul']); ?>"><?= $j['judul']; ?></a>
+                            <?php endforeach; ?>
+                    </li>
+
+                 <?php else : ?>
+                 <li class="nav-item">
+                 <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">
+                     <i class="<?= $sm['icon']; ?>"></i>
+                     <span><?= $sm['title']; ?></span></a>
+                 </li>
+                 <?php endif; ?>
              <?php endforeach; ?>
              <hr class="sidebar-divider d-none d-md-block">
              <br>

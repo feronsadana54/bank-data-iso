@@ -46,7 +46,7 @@
                                                     </thead>
                                                     <tbody>
                                                         <?php $i = 1; ?>
-                                                        <?php foreach ($data as $d) : ?>
+                                                        <?php foreach ($judul as $d) : ?>
                                                             <tr>
                                                                 <th scope="row"><?= $i; ?></th>
                                                                 <td><?= $d['judul']; ?></td>

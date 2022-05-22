@@ -21,6 +21,7 @@
                         <?php foreach ($temp as $fi) { ?>
                             <?php echo form_open_multipart('joint/update_triwulan');?>
                             <input type="hidden" name="id" value="<?php echo $fi->id ?>">
+                            <input type="hidden" name="id_judul" value="<?php echo $fi->id_judul ?>">
                             <div class="form-group">
                                 <label for="nama">Nama Berkas</label>
                                 <input type="text" class="form-control" id="nama_berkas_lama" name="nama_berkas_lama" placeholder="Masukkan nama file" value="<?= $fi->nama_berkas; ?>" readonly>
