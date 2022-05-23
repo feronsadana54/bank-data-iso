@@ -21,12 +21,7 @@
                                     <div class="col-lg-6">
                                         <section class="panel">
                                             <div class="navbar-form navbar-right">
-                                                <form class="form-horizontal " method="post" action="<?= base_url(); ?>joint/searchperbulan">
-
-                                                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="keyword">
-                                                    <button class="btn btn-outline-success" type="submit">Search</button>
-                                            </div>
-                                            </form>
+                                               
 
                                             <?= $this->session->flashdata('messsage'); ?>
                                             <form class="form-horizontal " method="post" action="<?= base_url(); ?>joint/tampil_perbulan">

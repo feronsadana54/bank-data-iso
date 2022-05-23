@@ -2,7 +2,7 @@
     <div class="row justify-content-md-center h-100">
         <div class="card-wrapper">
             <div class="brand">
-                <img src="<?= base_url() ?>assets/img/judul.png" alt="logo">
+                <img src="<?= base_url() ?>assets/img/judul_new.png" alt="logo">
             </div>
 
             <div class="card fat">

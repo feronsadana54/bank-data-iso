@@ -195,25 +195,45 @@ class Inspect_model extends CI_Model
     public function get_keyword($keyword)
     {
         $this->db->select('*');
-        $this->db->from('data_triwulan');
+        $this->db->from('user_file');
+        $this->db->where('id_kategori', '1');
+        $this->db->order_by('id', 'ASC');
         $this->db->or_like('nama_berkas', $keyword);
-        $this->db->or_like('judul_file', $keyword);
+        $this->db->or_like('bisnis_area', $keyword);
+        $this->db->or_like('id_judul', $keyword);
         $this->db->or_like('tanggal', $keyword);
-        $this->db->or_like('bussinnes_area', $keyword);
 
         // var_dump($this->db->get()->result());
-        return $this->db->get()->result_array();
+        $val =  $this->db->get()->result_array();
+        var_dump($val);
+        die;
     }
+
+    public function get_date($keywordawal)
+    {
+        $this->db->select('*');
+        $this->db->from('user_file');
+        $this->db->join('user_judul', 'user_file.id_judul = user_judul.id_judul');
+        $this->db->join('user_kategori_judul', 'user_file.id_kategori = user_kategori_judul.id_kategori');
+        $this->db->where('tanggal', $keywordawal);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
+
     public function get_keywordperbulan($keyword)
     {
         $this->db->select('*');
-        $this->db->from('user_data_perbulan');
+        $this->db->from('user_file');
         $this->db->or_like('nama_berkas', $keyword);
         $this->db->or_like('bisnis_area', $keyword);
-        $this->db->or_like('judul_file', $keyword);
+        $this->db->or_like('id_judul', $keyword);
         $this->db->or_like('tanggal', $keyword);
+        $this->db->where('id_kategori', '2');
+        $this->db->order_by('id', 'ASC');
 
         // var_dump($this->db->get()->result());
-        return $this->db->get()->result_array();
+        $val =  $this->db->get()->result_array();
+        var_dump($val);
+        die;
     }
 }

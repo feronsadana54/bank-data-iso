@@ -98,9 +98,11 @@ class Joint extends CI_Controller
                     'id_judul' => $this->input->post('id_judul'),
                     'bisnis_area' => $this->input->post('bisnis_area'),
                     'file' => $this->upload->data('file_ext'),
-                    'tanggal' => date('Y-m-d H:i:s'),
+                    'tanggal' => date("Y-m-d"),
                     'id_kategori' => $this->input->post('id_kategori'),
                 ];
+
+
                 $this->db->insert('user_file', $data);
                 redirect('joint/iso');
             }
@@ -139,7 +141,7 @@ class Joint extends CI_Controller
                     'id_judul' => $this->input->post('id_judul'),
                     'bisnis_area' => $this->input->post('bisnis_area'),
                     'file' => $this->upload->data('file_ext'),
-                    'tanggal' => date('Y-m-d H:i:s'),
+                    'tanggal' => date("Y-m-d"),
                     'id_kategori' => $this->input->post('id_kategori'),
                 ];
 
@@ -149,24 +151,6 @@ class Joint extends CI_Controller
         }
     }
 
-    public function hapus_data($id)
-    {
-
-        $this->db->where('id', $id);
-        $data = $this->inspect_model->getDataById($id)->row();
-        $nama = './uploads/' . $data->file;
-
-        if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
-        {
-            $this->inspect_model->hapus_data($id);
-            redirect('joint/kategori');
-        } else if (!is_readable($nama)) {
-            $this->inspect_model->hapus_data($id);
-            redirect('joint/kategori');
-        } else {
-            echo 'gagal';
-        }
-    }
 
     public function download($id)
     {
@@ -345,10 +329,10 @@ class Joint extends CI_Controller
         if (is_readable($nama) && unlink($nama)) //fungsi untuk membaca file
         {
             $this->inspect->hapus_data_triwulan($id);
-            redirect('joint/iso');
+            redirect('joint/tampil_data_triwulan/' . $data->id_judul);
         } else if (!is_readable($nama)) {
             $this->inspect->hapus_data_triwulan($id);
-            redirect('joint/iso');
+            redirect('joint/tampil_data_triwulan/' . $data->id_judul);
         } else {
             echo 'gagal';
         }
@@ -455,12 +439,12 @@ class Joint extends CI_Controller
     {
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
-        $keyword = $this->input->post('keyword');
-        $data['data'] = $this->inspect_model->get_keyword($keyword);
+        $keywordawal = $this->input->post('keywordawal');
+        $data['judul'] = $this->inspect->get_date($keywordawal);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);
-        $this->load->view('data/komputer', $data);
+        $this->load->view('data/search_tanggal', $data);
         $this->load->view('templates/footer');
     }
 
@@ -469,7 +453,7 @@ class Joint extends CI_Controller
         $data['title'] = 'Data Komputer';
         $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
         $keyword = $this->input->post('keyword');
-        $data['data'] = $this->inspect_model->get_keywordperbulan($keyword);
+        $data['data'] = $this->inspect->get_keywordperbulan($keyword);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/sidebar', $data);
         $this->load->view('templates/topbar', $data);

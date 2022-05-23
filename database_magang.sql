@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 06 Nov 2021 pada 05.20
--- Versi server: 10.4.6-MariaDB
--- Versi PHP: 7.3.8
+-- Waktu pembuatan: 23 Bulan Mei 2022 pada 12.16
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
@@ -21,30 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Database: `database_magang`
 --
-
--- --------------------------------------------------------
-
---
--- Struktur dari tabel `data_triwulan`
---
-
-CREATE TABLE `data_triwulan` (
-  `id` int(11) NOT NULL,
-  `nama_berkas` varchar(256) NOT NULL,
-  `judul_file` varchar(256) NOT NULL,
-  `tanggal` date NOT NULL,
-  `bussinnes_area` varchar(256) NOT NULL,
-  `file` varchar(256) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `data_triwulan`
---
-
-INSERT INTO `data_triwulan` (`id`, `nama_berkas`, `judul_file`, `tanggal`, `bussinnes_area`, `file`) VALUES
-(27, 'UAS_ML_09021381823085_Feron_Sadana4.docx', 'FORMULIR PC/LAPTOP CHECKING', '2021-11-04', '123-123', '.docx'),
-(28, '349__SURAT_PEMASANGAN_wifi.docx', 'FORMULIR PC/LAPTOP CHECKING', '2021-11-04', '345-345', '.docx'),
-(29, 'Daftar_Pustaka.docx', 'Radio', '2021-11-05', '312-312', '.docx');
 
 -- --------------------------------------------------------
 
@@ -100,24 +75,18 @@ INSERT INTO `user_access_menu` (`id`, `role_id`, `menu_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `user_data_perbulan`
+-- Struktur dari tabel `user_file`
 --
 
-CREATE TABLE `user_data_perbulan` (
+CREATE TABLE `user_file` (
   `id` int(11) NOT NULL,
-  `nama_berkas` varchar(256) NOT NULL,
-  `bisnis_area` varchar(250) NOT NULL,
-  `judul_file` varchar(256) NOT NULL,
-  `tanggal` date NOT NULL,
-  `file` varchar(250) NOT NULL
+  `nama_berkas` varchar(255) NOT NULL,
+  `bisnis_area` varchar(255) NOT NULL,
+  `tanggal` varchar(255) NOT NULL,
+  `file` varchar(255) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
+  `id_judul` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data untuk tabel `user_data_perbulan`
---
-
-INSERT INTO `user_data_perbulan` (`id`, `nama_berkas`, `bisnis_area`, `judul_file`, `tanggal`, `file`) VALUES
-(10, 'Daftar_Pustaka.docx', '321-321', 'FORMULIR CHECKLIST PEMANTAUAN RUANG DATA CENTER', '2021-11-04', '.docx');
 
 -- --------------------------------------------------------
 
@@ -126,19 +95,19 @@ INSERT INTO `user_data_perbulan` (`id`, `nama_berkas`, `bisnis_area`, `judul_fil
 --
 
 CREATE TABLE `user_judul` (
-  `id` int(11) NOT NULL,
-  `judul` varchar(128) NOT NULL,
-  `kategori_id` int(10) NOT NULL
+  `id_judul` int(11) NOT NULL,
+  `judul` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data untuk tabel `user_judul`
 --
 
-INSERT INTO `user_judul` (`id`, `judul`, `kategori_id`) VALUES
-(7, 'FORMULIR PC/LAPTOP CHECKING', 1),
-(8, 'FORMULIR CHECKLIST PEMANTAUAN RUANG DATA CENTER', 2),
-(9, 'Radio', 1);
+INSERT INTO `user_judul` (`id_judul`, `judul`) VALUES
+(7, 'FORMULIR PC/LAPTOP CHECKING'),
+(8, 'FORMULIR CHECKLIST PEMANTAUAN RUANG DATA CENTER'),
+(9, 'Radio'),
+(10, 'ISO.786');
 
 -- --------------------------------------------------------
 
@@ -147,7 +116,7 @@ INSERT INTO `user_judul` (`id`, `judul`, `kategori_id`) VALUES
 --
 
 CREATE TABLE `user_kategori_judul` (
-  `id` int(11) NOT NULL,
+  `id_kategori` int(11) NOT NULL,
   `kategori` varchar(128) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -155,7 +124,7 @@ CREATE TABLE `user_kategori_judul` (
 -- Dumping data untuk tabel `user_kategori_judul`
 --
 
-INSERT INTO `user_kategori_judul` (`id`, `kategori`) VALUES
+INSERT INTO `user_kategori_judul` (`id_kategori`, `kategori`) VALUES
 (1, 'Triwulan'),
 (2, 'Perbulan');
 
@@ -265,12 +234,6 @@ INSERT INTO `user_token` (`id`, `email`, `token`, `date_created`) VALUES
 --
 
 --
--- Indeks untuk tabel `data_triwulan`
---
-ALTER TABLE `data_triwulan`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeks untuk tabel `user`
 --
 ALTER TABLE `user`
@@ -283,22 +246,24 @@ ALTER TABLE `user_access_menu`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indeks untuk tabel `user_data_perbulan`
+-- Indeks untuk tabel `user_file`
 --
-ALTER TABLE `user_data_perbulan`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `user_file`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `id_kategori` (`id_kategori`),
+  ADD KEY `id_judul` (`id_judul`);
 
 --
 -- Indeks untuk tabel `user_judul`
 --
 ALTER TABLE `user_judul`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_judul`);
 
 --
 -- Indeks untuk tabel `user_kategori_judul`
 --
 ALTER TABLE `user_kategori_judul`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_kategori`);
 
 --
 -- Indeks untuk tabel `user_menu`
@@ -329,12 +294,6 @@ ALTER TABLE `user_token`
 --
 
 --
--- AUTO_INCREMENT untuk tabel `data_triwulan`
---
-ALTER TABLE `data_triwulan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
-
---
 -- AUTO_INCREMENT untuk tabel `user`
 --
 ALTER TABLE `user`
@@ -347,22 +306,22 @@ ALTER TABLE `user_access_menu`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
--- AUTO_INCREMENT untuk tabel `user_data_perbulan`
+-- AUTO_INCREMENT untuk tabel `user_file`
 --
-ALTER TABLE `user_data_perbulan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `user_file`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_judul`
 --
 ALTER TABLE `user_judul`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_judul` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_kategori_judul`
 --
 ALTER TABLE `user_kategori_judul`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id_kategori` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_menu`
@@ -387,6 +346,17 @@ ALTER TABLE `user_sub_menu`
 --
 ALTER TABLE `user_token`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+
+--
+-- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
+--
+
+--
+-- Ketidakleluasaan untuk tabel `user_file`
+--
+ALTER TABLE `user_file`
+  ADD CONSTRAINT `user_file_ibfk_1` FOREIGN KEY (`id_judul`) REFERENCES `user_judul` (`id_judul`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `user_file_ibfk_2` FOREIGN KEY (`id_kategori`) REFERENCES `user_kategori_judul` (`id_kategori`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
