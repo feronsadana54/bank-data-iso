@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 23 Bulan Mei 2022 pada 12.16
+-- Waktu pembuatan: 23 Bulan Mei 2022 pada 16.54
 -- Versi server: 10.4.24-MariaDB
 -- Versi PHP: 8.1.6
 
@@ -44,9 +44,9 @@ CREATE TABLE `user` (
 
 INSERT INTO `user` (`id`, `name`, `username`, `image`, `pass`, `role_id`, `is_active`, `date_created`) VALUES
 (53, 'feron sadana', 'feronsadana', 'default.jpg', '$2y$10$PNg2mrFAToSm5DTudWEKl.UYnM85Sl8ySN95cOL1OvYkzNni389Ae', 2, 1, 1636033706),
-(54, 'Manager', 'manager', 'default.jpg', '$2y$10$Pm1THLCJ8veyswz9UyRsDuDW2TvUmAV9rSg0NB8n9fMJuwUIkI.Hi', 3, 1, 1636050302),
+(54, 'Manager', 'manager', 'default.jpg', '$2y$10$tOXxWssj/vEdf9aUMiceo.CyuHXFcCwoNtHzTDqLLs89se7381hsu', 3, 1, 1636050302),
 (55, 'User', 'user', 'default.jpg', '', 2, 1, 1636050316),
-(58, 'admin', 'admin', 'default.jpg', '$2y$10$zR/cu2SQHFe/QRZJ/28Wy.L53j4Rxvw0o8/TFP1O4pzcopleBUs12', 1, 1, 1636172148);
+(58, 'admin', 'admin', 'default.jpg', '$2y$10$APY6Hyimj/GfIJiS3vgABepsHKoot1AQVeI56w.29h4mR2GUNpLwC', 1, 1, 1636172148);
 
 -- --------------------------------------------------------
 
@@ -88,6 +88,14 @@ CREATE TABLE `user_file` (
   `id_judul` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data untuk tabel `user_file`
+--
+
+INSERT INTO `user_file` (`id`, `nama_berkas`, `bisnis_area`, `tanggal`, `file`, `id_kategori`, `id_judul`) VALUES
+(18, 'SK_BAK_Ak_0173_Kalender_Akademik_(1).pdf', '12', '2022-05-23', '.pdf', 1, 7),
+(19, 'SK_BAK_Ak_0173_Kalender_Akademik_(1).pdf', '1212', '2022-05-23', '.pdf', 2, 7);
+
 -- --------------------------------------------------------
 
 --
@@ -107,7 +115,9 @@ INSERT INTO `user_judul` (`id_judul`, `judul`) VALUES
 (7, 'FORMULIR PC/LAPTOP CHECKING'),
 (8, 'FORMULIR CHECKLIST PEMANTAUAN RUANG DATA CENTER'),
 (9, 'Radio'),
-(10, 'ISO.786');
+(10, 'ISO.786'),
+(11, 'ISO-1122'),
+(12, 'ISO-312');
 
 -- --------------------------------------------------------
 
@@ -195,13 +205,12 @@ INSERT INTO `user_sub_menu` (`id`, `menu_id`, `title`, `url`, `icon`, `is_active
 (34, 4, 'Dashboard', 'manager', 'fas fa-fw fa-columns', 1),
 (43, 2, 'Edit Profile', 'user/edit', 'fas fa-fw fa-user-circle', 1),
 (44, 2, 'ISO', 'joint/iso', 'fas fa-fw fa-key', 1),
-(49, 2, 'Kategori file', 'joint', 'fas fa-tasks', 1),
-(51, 4, 'Kategori file', 'manager/kategori_file', 'fas fa-fw fa-tasks', 1),
+(49, 2, 'Kategori file', 'user', 'fas fa-tasks', 1),
 (52, 3, 'Menu management', 'menu', 'fas fa-fw fa-folder', 1),
 (53, 3, 'Submenu Management', 'menu/submenu', 'fas fa-fw fa-folder-open', 1),
 (54, 1, 'Input ISO', 'joint/inputiso', 'fas fa-fw fa-check-square', 1),
 (57, 5, 'Home', 'manager', 'fas fa-fw fa-columns', 1),
-(58, 5, 'Kategori file', 'manager/kategori_file', 'fas fa-fw fa-tasks', 1);
+(58, 5, 'Kategori file', 'manager', 'fas fa-fw fa-tasks', 1);
 
 -- --------------------------------------------------------
 
@@ -303,19 +312,19 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT untuk tabel `user_access_menu`
 --
 ALTER TABLE `user_access_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_file`
 --
 ALTER TABLE `user_file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_judul`
 --
 ALTER TABLE `user_judul`
-  MODIFY `id_judul` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id_judul` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_kategori_judul`
@@ -339,7 +348,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT untuk tabel `user_sub_menu`
 --
 ALTER TABLE `user_sub_menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=59;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_token`
