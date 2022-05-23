@@ -181,8 +181,11 @@ class Joint extends CI_Controller
             ];
 
             $this->db->insert('user_judul', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Submenu berhasil ditambahkan
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>ISO berhasil ditambah!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>');
             redirect('joint/inputiso');
         }
@@ -228,9 +231,12 @@ class Joint extends CI_Controller
 
 
         $this->inspect->update_data($where, $data, 'user_judul');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil diupdate
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>ISO berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('joint/inputiso');
     }
 

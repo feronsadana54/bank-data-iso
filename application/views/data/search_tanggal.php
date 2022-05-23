@@ -49,13 +49,21 @@
                                                                 <td><?= $d['kategori']; ?></td>
                                                                 <td>
                                                                     <?php if($d['id_kategori'] == 1) :?>
+                                                                        <?php if($user['role_id'] == 3):?>
+                                                                    <a href="<?php echo base_url(); ?>Joint/download_triwulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                    <?php else : ?>
                                                                     <a href="<?php echo base_url() ?>Joint/edit_data_triwulan/<?php echo $d['id'] ?>" class="badge badge-info"> Edit</a>
                                                                     <a href="<?php echo base_url() ?>Joint/hapus_data_triwulan/<?php echo $d['id'] ?>" class="badge badge-danger"> Hapus</a>
                                                                     <a href="<?php echo base_url(); ?>Joint/download_triwulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                    <?php endif; ?>
                                                                     <?php else : ?>
+                                                                        <?php if($user['role_id'] == 3):?>
+                                                                    <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                        <?php else : ?>
                                                                     <a href="<?php echo base_url() ?>Joint/edit_perbulan/<?php echo $d['id'] ?>" class="badge badge-info"> Edit</a>
                                                                     <a href="<?php echo base_url() ?>Joint/hapus_data_perbulan/<?php echo $d['id'] ?>" class="badge badge-danger"> Hapus</a>
                                                                     <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                    <?php endif;?>
                                                                     <?php endif; ?>
                                                                 </td>
                                                             </tr>

@@ -71,8 +71,11 @@ class Admin extends CI_Controller
         } else {
             $this->db->delete('user_access_menu', $data);
         }
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-        Akses diubah!
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Akses diubah!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>');
     }
 
@@ -151,9 +154,12 @@ class Admin extends CI_Controller
         var_dump($id);
 
         $this->admin->update_data($where, $data, 'user');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil diupdate
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Akun berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('admin/manageakun');
     }
     public function updatepassword()
@@ -174,9 +180,12 @@ class Admin extends CI_Controller
         // var_dump($id);
 
         $this->admin->update_data($where, $data, 'user');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil diupdate
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Akun berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('admin/manageakun');
     }
 
@@ -185,9 +194,12 @@ class Admin extends CI_Controller
         $this->load->model('admin_model');
         $this->admin_model->hapus_data($id);
         $id = $this->input->post('id');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil dihapus
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Akun berhasil dihapus!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('admin/manageakun');
     }
 
@@ -229,8 +241,11 @@ class Admin extends CI_Controller
             ];
 
             $this->db->insert('user', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil ditambahkan
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Akun berhasil ditambah</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>');
             redirect('admin/manageakun');
         }

@@ -65,7 +65,7 @@
                  </li>
 
                  <!-- Drobdown user -->
-                 <?php elseif ($sm['url'] == "joint") :?>
+                 <?php elseif ($sm['title'] == "Kategori file") :?>
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <?= $sm['title']; ?>
@@ -76,18 +76,6 @@
                             <?php endforeach; ?>
                     </li>
                     
-                    <!-- Dropdown manager -->
-                    <?php elseif ($sm['url'] == "manager/kategori_file") :?>
-                     <li class="dropdown">
-                        <a class="btn dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <?= $sm['title']; ?>
-                         </a>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                            <?php foreach ($judul as $j) : ?>
-                                <a class="dropdown-item" href="<?= base_url('joint/'.$j['id_judul']); ?>"><?= $j['judul']; ?></a>
-                            <?php endforeach; ?>
-                    </li>
-
                  <?php else : ?>
                  <li class="nav-item">
                  <a class="nav-link pb-0" href="<?= base_url($sm['url']); ?>">

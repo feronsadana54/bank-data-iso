@@ -25,8 +25,11 @@ class Menu extends CI_Controller
             $this->load->view('templates/footer');
         } else {
             $this->db->insert('user_menu', ['menu' => $this->input->post('menu')]);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Menu berhasil ditambahkan
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Menu berhasil ditambahkan!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>');
             redirect('menu');
         }
@@ -62,8 +65,11 @@ class Menu extends CI_Controller
             ];
 
             $this->db->insert('user_sub_menu', $data);
-            $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Submenu berhasil ditambahkan
+            $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Submenu berhasil ditambahkan!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>');
             redirect('menu/submenu');
         }
@@ -109,9 +115,12 @@ class Menu extends CI_Controller
         );
 
         $this->menu->update_data($where, $data, 'user_menu');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akun berhasil diupdate
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Menu berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('menu');
     }
 }

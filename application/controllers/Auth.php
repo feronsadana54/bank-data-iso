@@ -51,9 +51,12 @@ class auth extends CI_Controller
                         redirect('manager');
                     }
                 } else {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Maaf password salah
-          </div>');
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Maaf Password Salah</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>');
                     redirect('auth');
                 }
             } else {
@@ -63,8 +66,11 @@ class auth extends CI_Controller
                 redirect('auth');
             }
         } else {
-            $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Maaf akunmu belum terdaftar
+            $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Maaf akunmu belum terdaftar</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>');
             redirect('auth');
         }
@@ -207,9 +213,12 @@ class auth extends CI_Controller
     {
         $this->session->unset_userdata('username');
         $this->session->unset_userdata('role_id');
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Akunmu berhasil keluar!
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Akunmu berhasil keluar!</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('auth');
     }
 

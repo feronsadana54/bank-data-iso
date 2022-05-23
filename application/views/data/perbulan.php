@@ -50,9 +50,13 @@
                                                                 <td><?= $d['bisnis_area']; ?></td>
                                                                 <td>
 
+                                                                <?php if($user['role_id'] == 3):?>
+                                                                    <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                    <?php else : ?>
                                                                     <a href="<?php echo base_url() ?>Joint/edit_perbulan/<?php echo $d['id'] ?>" class="badge badge-primary"> Edit</a>
                                                                     <a href="<?php echo base_url() ?>Joint/hapus_data_perbulan/<?php echo $d['id'] ?>" class="badge badge-danger"> Hapus</a>
                                                                     <a href="<?php echo base_url(); ?>Joint/download_perbulan/<?php echo $d['id']; ?>" class="badge badge-success"> Download</a>
+                                                                    <?php endif; ?>
                                                                </td>
 
                                                             </tr>

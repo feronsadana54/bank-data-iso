@@ -1,15 +1,16 @@
-html,body {
+html,
+body {
 	height: 100%;
 }
 
 body.my-login-page {
-	background-image: linear-gradient(rgba(0, 83, 156),rgba(00, 00, 00));
+	background-image: linear-gradient(rgba(0, 83, 156), rgba(00, 00, 00));
 	font-size: 13.8px;
 	background-attachment: fixed;
 }
 
 .my-login-page .brand {
-	width: 500px;
+	width: 1000px;
 	height: 300px;
 	margin-bottom: -150px;
 	margin-top: 20px;
@@ -27,7 +28,7 @@ body.my-login-page {
 
 .my-login-page .card {
 	border-color: transparent;
-	box-shadow: 0 4px 8px rgba(0,0,0,.05);
+	box-shadow: 0 4px 8px rgba(0, 0, 0, .05);
 }
 
 .my-login-page .card.fat {
@@ -46,7 +47,7 @@ body.my-login-page {
 	width: 100%;
 }
 
-.my-login-page .Transp{
+.my-login-page .Transp {
 	background-color: rgba(00, 00, 00, 0.5);
 	background-attachment: fixed;
 }

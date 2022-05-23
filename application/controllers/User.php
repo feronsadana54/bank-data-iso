@@ -82,9 +82,12 @@ class User extends CI_Controller
         $this->db->where('username', $username);
         $this->db->update('user');
 
-        $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-            Profilmu berhasil diupdate
-          </div>');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Profile berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
         redirect('user');
     }
 
@@ -106,15 +109,21 @@ class User extends CI_Controller
             $current_password = $this->input->post('current_password');
             $new_password = $this->input->post('new_password1');
             if (!password_verify($current_password, $data['user']['pass'])) {
-                $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Password anda tidak sesuai
-          </div>');
+                $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Password tidak sesuai</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>');
                 redirect('user/changepassword');
             } else {
                 if ($current_password == $new_password) {
-                    $this->session->set_flashdata('message', '<div class="alert alert-danger" role="alert">
-            Password anda sudah digunakan silahkan ganti yang baru
-          </div>');
+                    $this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Password anda sudah digunakan silahkan gunakan yang baru</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>');
                     redirect('user/changepassword');
                 } else {
                     // password sudah ok
@@ -124,9 +133,12 @@ class User extends CI_Controller
                     $this->db->where('username', $this->session->userdata('username'));
                     $this->db->update('user');
 
-                    $this->session->set_flashdata('message', '<div class="alert alert-success" role="alert">
-                    Password berhasil diubah!
-                    </div>');
+                    $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>Password berhasil diubah!</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>');
 
                     redirect('user/changepassword');
                 }
