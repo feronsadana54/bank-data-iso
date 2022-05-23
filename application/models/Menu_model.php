@@ -12,6 +12,17 @@ class Menu_model extends CI_Model
         return $this->db->query($query)->result_array();
     }
 
+    function get_sub_menu($id)
+    {
+        $this->db->select('*');
+        $this->db->from('user_sub_menu');
+        $this->db->join('user_menu', 'user_sub_menu.menu_id = user_menu.id');
+        $this->db->where('user_sub_menu.id', $id);
+        $this->db->order_by('user_sub_menu.id', 'ASC');
+        $query = $this->db->get()->result_array();
+        return $query;
+    }
+
     public function hapus_data($id)
     {
 
@@ -40,5 +51,11 @@ class Menu_model extends CI_Model
     {
         $this->db->where('id', $id);
         return $this->db->get('user_menu');
+    }
+
+    function getDataByIdSubMenu($id)
+    {
+        $this->db->where('id', $id);
+        return $this->db->get('user_sub_menu');
     }
 }

@@ -77,12 +77,66 @@ class Menu extends CI_Controller
 
     function hapus($id)
     {
+        $this->load->model('Menu_model', 'menu');
         $this->load->model('Menu_model');
-        $this->Menu_model->hapus_data($id);
+        $this->menu->hapus_data_sub($id);
         $id = $this->input->post('id');
-        redirect('Menu');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>Submenu berhasil dihapus!</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>');
+        redirect('Menu/submenu');
     }
 
+
+    public function edit_submenu($id)
+    {
+        $this->load->model('Menu_model', 'menu');
+        $data['title'] = 'Edit Submenu';
+        $data['user'] = $this->db->get_where('user', ['username' => $this->session->userdata('username')])->row_array();
+        $data['data'] = $this->db->get_where('user_sub_menu', ['id' => $id])->row_array();
+        $data['menu'] = $this->db->get('user_menu')->result_array();
+        $data['user_sub'] = $this->menu->get_sub_menu($id);
+        $data['uri'] = $this->uri->segment(3);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/sidebar', $data);
+        $this->load->view('templates/topbar', $data);
+        $this->load->view('menu/edit_sub', $data);
+        $this->load->view('templates/footer');
+    }
+
+    public function updatesubmenu()
+    {
+        $this->load->model('Menu_model', 'menu');
+        $id = $this->input->post('id');
+        $data = $this->menu->getDataById($id)->row();
+        $menu_id = $this->input->post('menu_id');
+        $title = $this->input->post('title');
+        $url = $this->input->post('url');
+        $icon = $this->input->post('icon');
+
+        $data = array(
+            'menu_id' => $menu_id,
+            'title' => $title,
+            'url' => $url,
+            'icon' => $icon
+        );
+
+        $where = array(
+            'id' => $id
+        );
+
+        $this->menu->update_data($where, $data, 'user_sub_menu');
+        $this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        <strong>Submenu berhasil diupdate</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>');
+        redirect('menu/submenu');
+    }
 
     public function edit($id)
     {
@@ -98,6 +152,8 @@ class Menu extends CI_Controller
         $this->load->view('menu/edit_menu', $data);
         $this->load->view('templates/footer');
     }
+
+
 
     public function updatemenu()
     {

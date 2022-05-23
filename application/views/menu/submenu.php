@@ -28,7 +28,7 @@
                                     <th scope="col">Url</th>
                                     <th scope="col">Icon</th>
                                     <th scope="col">Active</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col" colspan="2">Action</th>
 
                                 </tr>
                             </thead>
@@ -44,7 +44,7 @@
                                         <td><?= $sm['is_active']; ?></td>
                                         <td>
                                             <a href="<?php echo base_url() ?>Menu/hapus/<?php echo $sm['id'] ?>" class="badge badge-danger"> Hapus</a>
-
+                                            <a href="<?php echo base_url() ?>Menu/edit_submenu/<?php echo $sm['id'] ?>" class="badge badge-info">Edit</a>
                                         </td>
                                     </tr>
 
